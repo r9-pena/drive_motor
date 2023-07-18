@@ -1,0 +1,22 @@
+options:
+  dcf_path: install/drive_motor/share/drive_motor/config/single-db42
+
+master:
+  node_id: 2
+  package: "ros2_canopen::MasterDriver"
+  driver: "canopen_master_driver"
+  sync_period: 20000
+
+bldc_db42:
+  node_id: 7
+  dcf: "PD4N.eds"
+  driver: "ros2_canopen::Cia402Driver"
+  package: "canopen_402_driver"
+  period: 20
+  sdo: # SDO executed during config
+    - {index: 0x6060, sub_index: 0, value: 2} # Set velocity
+    - {index: 0x6042, sub_index: 0, value: 200} # Set acceleration
+    - {index: 0x6040, sub_index: 0, value: 6} # Set deceleration
+    - {index: 0x6040, sub_index: 0, value: 7} # Set quickstop deceleration
+    - {index: 0x6040, sub_index: 0, value: 15} # Set default homing mode to 35
+    - {index: 0x6040, sub_index: 0, value: 0} # Set interpolation time for cyclic modes to 50 ms
